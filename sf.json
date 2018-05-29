@@ -1,0 +1,22 @@
+{
+  "credentials": {
+    "username": "accelerate2018@apttusdemo.com",
+    "password": "apttus2018u3micIhzOBt07ewxykT2wdoPh",
+    "endpoint": "https://login.salesforce.com",
+    "enableCors": true
+  },
+  "initialized": true,
+  "domain": "apttuscommunities-16242c6bc17.force.com",
+  "network": {
+    "attributes": {
+      "type": "Network",
+      "url": "/services/data/v39.0/sobjects/Network/0DB6A000000eoYXWAY"
+    },
+    "Id": "0DB6A000000eoYXWAY",
+    "Name": "Partner Community",
+    "UrlPathPrefix": null
+  },
+  "pageName": "shop",
+  "resourceName": "shop",
+  "pageEnableCheck": true
+}

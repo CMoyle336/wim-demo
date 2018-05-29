@@ -1,0 +1,126 @@
+<breadcrumbs [breadPageTitle]="pageTitle"></breadcrumbs>
+<!-- Page Content-->
+<div class="container padding-bottom-3x mb-1 pt-5">
+    <!-- Shopping Cart-->
+    <div class="table-responsive shopping-cart">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th class="text-center">Unit Price</th>
+                    <th class="text-center">Quantity</th>
+                    <th class="text-center">Net Price</th>
+                    <th class="text-center">
+                        <!-- <a class="btn btn-sm btn-outline-danger" href="#">Clear Cart</a> -->
+                    </th>
+                </tr>
+            </thead>
+            <tbody *ngIf="cart?.Apttus_Config2__LineItems__r?.records.length > 0;">
+                <tr  *ngFor="let item of cart?.Apttus_Config2__LineItems__r?.records;">
+                    <td>
+                        <div class="product-item">
+                            <a class="product-thumb" [routerLink]="['/product', item.ProductCode]">
+                                <img [src]="sanitizer.bypassSecurityTrustUrl(item.Apttus_Config2__ProductId__r?.Apttus_Config2__IconId__c | image)"
+                                alt="Generic placeholder image">
+                            </a>
+                            <div class="product-info">
+                                <h4 class="product-title">
+                                    <a href="javascript:void(0)" [routerLink]="['/product', item.Apttus_Config2__ProductId__r.ProductCode]">{{item.Apttus_Config2__ProductId__r.Name}}</a>
+                                </h4>
+                                <span>
+                                    <em>Product Code:</em> {{item.Apttus_Config2__ProductId__r.ProductCode}}</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="text-center text-lg text-medium">
+                            <strong *ngIf="item.Apttus_Config2__ListPrice__c != -1; else calcItem">{{item.Apttus_Config2__ListPrice__c | localCurrency | async}}</strong>
+                            <ng-template #calcItem>
+                                <strong>Calculating...</strong>
+                            </ng-template>
+                        </td>
+                        <td class="text-center">
+                            <div class="count-input">
+                                {{item.Apttus_Config2__Quantity__c}}
+                            </div>
+                        </td>
+                        <td class="text-center text-lg text-medium">
+                            <strong *ngIf="item.Apttus_Config2__ListPrice__c != -1; else calcItem">{{item.Apttus_Config2__NetPrice__c | localCurrency | async}}</strong>
+                            <ng-template #calcItem>
+                                <strong>Calculating...</strong>
+                            </ng-template>
+                        </td>
+                      
+                        <td class="text-center">
+                            <a class="remove-from-cart" href="javascript: void(0)" (click)="removeCartItem(item)" data-toggle="tooltip" title="Remove item">
+                                <i *ngIf="item._deleting" class='fa fa-circle-o-notch fa-spin'></i>
+                                <i *ngIf="!item._deleting" class="material-icons icon_close"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="shopping-cart-footer">
+            <div class="column">
+                <form 
+                    [formGroup]="couponForm" 
+                    (ngSubmit)="onSubmit()"
+                    class="coupon-form">
+                        <input
+                        class="form-control form-control-sm" 
+                        formControlName="couponCode"
+                        type="text" 
+                        placeholder="Coupon code" 
+                        required>
+                        <button 
+                            *ngIf="storefront"
+                            [style.borderColor]="storefront.APTSMD_Accent_Color__c"
+                            
+                            class="btn btn-outline-primary btn-sm"
+                            style="color: #faf8f8 !important;background-color: rgb(30, 115, 141);" 
+                            type="submit">Apply Coupon</button>
+                </form>
+            </div>
+            <div class="column text-lg"> 
+                <!-- *ngIf="cart._state != 'calculating'; else 'calculating'" -->
+                <div class="row" *ngFor="let summary of cart?.Apttus_Config2__SummaryGroups__r?.records">
+                    <div class="col-12">
+                        <span class="float-right" *ngIf="summary.Name !== 'Grand Total'">{{summary.Name}} : {{summary.Apttus_Config2__NetPrice__c | localCurrency | async}}</span>
+                        <!-- <span class="float-right" *ngIf="summary.Name === 'Grand Total'">
+                            <strong>{{Total}} : {{summary.Apttus_Config2__NetPrice__c | localCurrency | async}}</strong>
+                        </span> -->
+                    </div>
+                </div>
+                <div class="column text-lg">
+                    <div class="row">
+                            <div class="col-12">
+                                <span class="float-right" *ngIf="cart"><strong>Total : {{cart.APTSCU_Total_Base_Extended_Price__c | localCurrency | async}}</strong></span>
+                            </div>
+                    </div>
+                    <div class="row">
+                            <div class="col-12">
+                                    <span class="float-right" *ngIf="cart"><strong>Discount : {{cart.APTSCU_Discount__c | localCurrency | async}}</strong></span>
+                            </div>
+                    </div>
+                    <div class="row">
+                            <div class="col-12">
+                                    <span class="float-right" *ngIf="cart"><strong>After Discount : {{cart.APTSCU_Total_Net_Price__c | localCurrency | async}}</strong></span>
+                            </div>
+                    </div>
+                </div>
+                <ng-template #calculating>
+                    <span class="list-group-item bg-light">
+                        <div class="d-flex justify-content-end">
+                            <strong>Pricing Cart...</strong>
+                        </div>
+                    </span>
+                </ng-template>
+
+            </div>
+        </div>
+
+        <div class="shopping-cart-footer">
+            <div class="column"><a class="btn btn-outline-secondary" [routerLink]="['/product-list']"><i class="icon-arrow-left"></i>&nbsp;Back to Shopping</a></div>
+            <div class="column">
+                <a class="btn btn-success" style="background-color: rgb(30, 115, 141);" [routerLink]="['/address']" >Checkout</a></div>
+        </div>

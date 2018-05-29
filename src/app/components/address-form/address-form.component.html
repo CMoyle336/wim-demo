@@ -1,0 +1,232 @@
+            <form [formGroup]="addressForm" >
+                <h4>Billing Information</h4>
+                <hr class="padding-bottom-1x">
+                
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="checkout-fn">First Name</label>
+                            <input 
+                                type="text" 
+                                class="form-control"
+                                placeholder="{{contact?.FirstName}}" 
+                                value="" 
+                                name="contact.FirstName">
+                            <div class="invalid-feedback">
+                                Valid first name is required.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="checkout-ln">Last Name</label>
+                            <input 
+                                type="text" 
+                                class="form-control"
+                                placeholder="{{contact?.LastName}}" 
+                                value="" 
+                                required="" 
+                                name="contactlastName">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="checkout-email">E-mail Address</label>
+                            <input 
+                                placeholder="{{contact?.Email}}" 
+                                type="email" 
+                                class="form-control" 
+                                id="email" 
+                                placeholder="you@example.com" 
+                                name="contactEmail"
+                                email
+                                required>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="checkout-phone">Phone Number</label>
+                            <input 
+                                type="text" 
+                                class="form-control" 
+                                name="contactPhone"
+                                placeholder="401-398-3016">
+                        </div>
+                    </div>
+                </div>
+                    
+                    <h4 class="mt-3">Address</h4>
+                    <hr class="padding-bottom-1x">
+               
+                <div class="row padding-bottom-1x">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="checkout-country">Address</label>
+                            <select 
+                                class="form-control" 
+                                required="" 
+                                name="billingAddress"
+                                ngModel
+                                formControlName="billingAddress">
+                                <option value="">Select an option...</option>
+                                <option *ngFor="let location of accountLocations"
+                                value="location.Id">{{location.Apttus_Config2__Street__c}}, {{ location.Apttus_Config2__City__c}} {{location.Apttus_Config2__State__c}}, {{location.Apttus_Config2__PostalCode__c}}</option>
+                                <option value="newAddress" >Enter a new Billing Address</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div 
+                    *ngIf="addressForm.get('billingAddress').value == 'newAddress'"  
+                    class="add-new-address">
+                    
+                    <div class="row padding-bottom-1x">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="checkout-address1">Street</label>
+                                <input type="text" class="form-control" id="address" placeholder="4918 Diamond Cove" required="" 
+                                    name="contactMailingStreet">
+                                <div class="invalid-feedback">
+                                    Please enter your shipping address.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="address2">City</label>
+                                <input type="text" class="form-control" id="address2" placeholder="West Warwick" 
+                                    name="contactMailingCity">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="state">State</label>
+                                <select class="form-control" id="state" required="" 
+                                    name="contactMailingState">
+                                    <option value="state">Rhode Island</option>
+                                    <option>Texas</option>
+                                    <option>Georgia</option>
+                                </select>
+                                <div class="invalid-feedback">
+                                  Please provide a valid state.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="checkout-zip">ZIP Code</label>
+                                <input 
+                                    class="form-control" 
+                                    type="text" 
+                                    id="checkout-zip"
+                                    placeholder="02893"
+                                    >
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="checkout-country">Country</label>
+                                <select class="form-control" id="country" required="" 
+                                    name="contactMailingCountryCode">
+                                    <option>US</option>
+                                    <option>Australia</option>
+                                    <option>Canada</option>
+                                    <option>France</option>
+                                    <option>Germany</option>
+                                    <option>Switzerland</option>
+                                    <option>USA</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <h4>Shipping Address</h4>
+                <hr class="padding-bottom-1x">
+                <div class="form-group">
+                    <input 
+                        type="checkbox" 
+                    
+                        formControlName="sameAddress">
+                    <label for="same_address">Same as billing address</label>
+                </div>
+                <div 
+                    *ngIf="addressForm.get('sameAddress').value != true"  
+                    class="add-new-address">
+                    
+                    <div class="row padding-bottom-1x">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="checkout-address1">Street</label>
+                                <input ype="text" class="form-control" id="address" placeholder="Street" required="" 
+                                    name="contactMailingStreet">
+                                <div class="invalid-feedback">
+                                    Please enter your shipping address.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="address2">City</label>
+                                <input type="text" class="form-control" id="address2" placeholder="City" 
+                                    name="contactMailingCity">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="state">State</label>
+                                <select class="form-control" id="state" required="" 
+                                    name="contactMailingState">
+                                    <option value="state">Rhode Island</option>
+                                    <option>Texas</option>
+                                    <option>Georgia</option>
+                                </select>
+                                <div class="invalid-feedback">
+                                  Please provide a valid state.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="checkout-zip">ZIP Code</label>
+                                <input 
+                                    class="form-control" 
+                                    type="text" 
+                                    id="checkout-zip"
+                                    placeholder="Zip Code"
+                                    >
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="checkout-country">Country</label>
+                                <select class="form-control" id="country" required="" 
+                                    name="contactMailingCountryCode">
+                                    <option>US</option>
+                                    <option>Australia</option>
+                                    <option>Canada</option>
+                                    <option>France</option>
+                                    <option>Germany</option>
+                                    <option>Switzerland</option>
+                                    <option>USA</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr class="padding-bottom-1x">
+                
+                <div class="d-flex justify-content-between">
+                    <a class="btn btn-outline-secondary" [routerLink]="['/cart']">Back To Cart</a>
+                    <a
+                        *ngIf="storefront"
+                        [style.backgroundColor]="storefront.APTSMD_Accent_Color__c"
+                        class="btn btn-primary" 
+                        [routerLink]="['/shipping']">Continue</a>
+                </div>
+            </form>

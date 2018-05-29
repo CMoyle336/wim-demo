@@ -1,0 +1,62 @@
+<div class="animated fadeIn">
+    <hero-carousel></hero-carousel>
+    <!-- Marketing messaging and featurettes
+    ================================================== -->
+    <!-- Wrap the rest of the page in another container to center all the content. -->
+    <div class="container">
+        <section class="container padding-top-3x padding-bottom-3x">
+            <h3 class="text-center mb-30">Top Categories</h3>
+
+            <!-- Three columns of text below the carousel -->
+            <div class="row mb-2">
+                <div class="col-xl-4 col-lg-4 col-sm-4" *ngFor="let product of productListA">
+                    <a class="category-card flex-wrap text-center pt-0" [routerLink]="['/product-list', product?.Apttus_Config2__Categories__r?.records[0]?.Apttus_Config2__ClassificationId__r?.Name]">
+                        <div class="category-card-thumb w-100">
+                            <img [src]="sanitizer.bypassSecurityTrustUrl(product?.Apttus_Config2__IconId__c | image)" alt="Category">
+                        </div>
+                        <div class="category-card-info w-100">
+                            <h3 class="category-card-title">{{product?.Apttus_Config2__Categories__r?.records[0]?.Apttus_Config2__ClassificationId__r?.Name}}</h3>
+                            <h4 class="category-card-subtitle">{{product?.Apttus_Config2__Categories__r?.records[0]?.Apttus_Config2__ClassificationId__r?.Apttus_Config2__Description__c}}</h4>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <!-- /.row -->
+        </section>
+
+        <div *ngFor="let product of productListA; let even = even; let odd = odd">
+            <hr class="featurette-divider">
+            <div class="row featurette">
+                <div class="col-md-7" [class.order-md-2]="odd">
+                    <h2 class="featurette-heading">{{product?.Name}}
+                        <span class="text-muted">{{product.ProductCode}}</span>
+                    </h2>
+                    <p class="lead">{{product?.Description}}</p>
+                </div>
+                <div class="col-md-5" [class.order-md-1]="odd">
+                    <img class="featurette-image img-fluid mx-auto" data-src="holder.js/500x500/auto" alt="500x500" [src]="sanitizer.bypassSecurityTrustUrl(product?.Apttus_Config2__IconId__c | image)"
+                        data-holder-rendered="true">
+                </div>
+            </div>
+        </div>
+        <!-- /END THE FEATURETTES -->
+    </div>
+    <!-- /.container -->
+
+    <!-- FOOTER  -->
+    <footer class="container mt-5">
+        <div class="row">
+            <div class="col-8"></div>
+            <div class="col-2">
+                <span class="skype-button bubble" data-bot-id="cb6c9bc3-1c8e-4aff-bf29-f845026decc7"></span>
+            </div>
+        </div>
+        <p class="float-right">
+            <a *ngIf="storefront" href="#" [style.color]="storefront.APTSMD_Accent_Color__c">Back to top</a>
+        </p>
+        <p>© 2018 Activ ·
+            <a *ngIf="storefront" [style.color]="storefront.APTSMD_Accent_Color__c">Privacy</a> ·
+            <a *ngIf="storefront" [style.color]="storefront.APTSMD_Accent_Color__c">Terms</a>
+        </p>
+    </footer>
+</div>

@@ -1,0 +1,87 @@
+<breadcrumbs [breadPageTitle]="pageTitle"></breadcrumbs>
+<div class="container-fluid">
+  <div class="row"></div>
+  <h3>Customer Fleet Information</h3>
+  
+  <div class="row">
+      <div class="col-lg-8 col-md-10 col-xs-12 col-sm-12">
+          <div class="row">
+            <table class="table table-sm">
+              <thead>
+                <tr>
+                  <th scope="col">Vehicle Type</th>
+                  <th scope="col">Manufacturer</th>
+                  <th scope="col">Make</th>
+                  <th scope="col">Model</th>
+                  <th scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let fleet of fleets;let i = index">
+                 <td>{{fleet.Vehicle_Type__c}}</td>
+                  <td>{{fleet.Manufacturer__c}}</td>
+                  <td>{{fleet.Make__c}}</td>
+                  <td>{{fleet.Model__c}}</td>
+                  <td><a type="Submit" (click)="onSubmit(i);" style="color: #ffffff !important;background:#d90a07 !important">Search</a>
+                  
+                </tr>
+              </tbody>
+            </table>
+          </div>
+      </div>
+     
+      <div class="col-6">
+          <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
+              <ngb-panel title="Add New Fleet">
+                 <ng-template ngbPanelContent>
+          <form class="search-form form-inline my-2 my-lg-0" (ngSubmit)="addFleetInfo()" #theForm="ngForm">
+              Vehicle Type:
+                  <input
+                  id="typeahead-focus"
+                  type="text"
+                  name="vehicletype"
+                  class="form-control"
+                  [(ngModel)]="vehicleTypeVal"
+                  [ngbTypeahead]="vehicleTypeSearch"
+                  
+                  #instance="ngbTypeahead"/>
+              Manufacturer:
+                  <input
+                  id="typeahead-focus1"
+                  type="text"
+                  name="manu"
+                  class="form-control"
+                  [(ngModel)]="manufacturerVal"
+                  [ngbTypeahead]="manufacturerSearch"
+                 
+                  #instance1="ngbTypeahead"/>
+              Make:
+                  <input
+                  id="typeahead-focus2"
+                  type="text"
+                  name="make"
+                  class="form-control"
+                  [(ngModel)]="makeVal"
+                  [ngbTypeahead]="makeSearch"
+                  
+                  #instance2="ngbTypeahead"/>
+              Model:
+                  <input
+                  id="typeahead-focus3"
+                  type="text"
+                  name="model"
+                  class="form-control"
+                  [(ngModel)]="modelVal"
+                  [ngbTypeahead]="modelSearch"
+                  
+                  #instance3="ngbTypeahead"/>
+                  
+                </form>
+                <br/>
+                <button class="btn btn-primary" (click)="addFleetInfo();" style="color: #ffffff !important;background:#d90a07 !important;margin-left:30%">Add</button>
+              </ng-template>
+            </ngb-panel>
+        </ngb-accordion>
+      </div>
+  </div>
+  </div> 

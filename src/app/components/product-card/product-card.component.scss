@@ -1,0 +1,20 @@
+.card-title{
+    height: 45px;
+    overflow-y: hidden;
+}
+:host{
+    display: block;
+}
+a{
+    text-decoration: none;
+    color: inherit;
+}
+img{
+    max-height: 8rem;
+}
+.img-container{
+    height: 8rem;
+}
+star-rating{
+    margin-left: -7px;
+}

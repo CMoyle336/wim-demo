@@ -1,0 +1,288 @@
+
+<div class="toolbar">
+        <div class="inner">
+            <a class="toolbar-toggle mobile-menu-toggle" href="#mobileMenu">
+                <i class="material-icons menu"></i>
+            </a>
+                <a [ngClass]="{'user-active' : user?.Id }" class="toolbar-toggle user-toggle" id="user-toggle" href="#account">
+                <i class="material-icons person"></i><span *ngIf="user?.Id" class="account-username"></span>
+            </a>
+            <a class="toolbar-toggle search-toggle" id="search-toggle" href="#search">
+                <i class="material-icons search"></i>
+            </a>
+            <a class="toolbar-toggle" href="#cart">
+                <i>
+                    <span class="material-icons shopping_basket"></span>
+                    <span
+                        *ngIf="cart?.Apttus_Config2__LineItems__r?.records.length > 0" 
+                        [style.backgroundColor]="storefront.APTSMD_Accent_Color__c"
+                        class="count">{{cart?.Apttus_Config2__LineItems__r?.records.length}}       
+                    </span>
+                </i>
+            </a>
+        </div>
+        <!-- Toolbar Dropdown-->
+        <div class="toolbar-dropdown">
+            <!-- Mobile Menu Section-->
+            <div class="toolbar-section" id="mobileMenu">
+                <!-- Search Box-->
+                <form class="search-form form-inline my-2 my-lg-0" (ngSubmit)="onSubmit()" #theForm="ngForm">
+                  <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" required [(ngModel)]="searchQuery" name="searchQuery">
+                </form>
+                <!-- Slideable (Mobile) Menu-->
+                <nav class="slideable-menu mt-4">
+                    <ul class="menu">
+                        <li>
+                            <span>
+                                <a [routerLink]="['/']">
+                                    <span>Home</span>
+                                </a>
+                                <span class="sub-menu-toggle"></span>
+                            </span>
+                        </li>
+                        <li class="has-children">
+                            <span>
+                                <a>Shop</a>
+                                <span class="sub-menu-toggle"></span>
+                            </span>
+                            <ul class="slideable-submenu">
+                                <li class="has-children">
+                                    <span>
+                                        <a href="#">All Products</a>
+                                        <span class="sub-menu-toggle"></span>
+                                    </span>
+                                    <ul class="slideable-submenu">
+                                        <div *ngFor="let category of categoryTree">
+                                            <li *ngFor="let child of category._children">
+                                                <a [routerLink]="['/product-list', child.Name]">{{child.Apttus_Config2__Label__c}}</a>
+                                            </li>
+                                        </div>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a [routerLink]="['/cart']" >Cart</a>
+                                </li>
+                                <li class="has-children">
+                                    <span>
+                                        <a [routerLink]="['/cart']">Checkout</a>
+                                        <span class="sub-menu-toggle"></span>
+                                    </span>
+                                    <ul class="slideable-submenu">            
+                                        <li><a [routerLink]="['/address']">Address</a></li>
+                                        <li><a [routerLink]="['/shipping']">Shipping</a></li>
+                                        <li><a [routerLink]="['/payment']">Payment</a></li>
+                                        <li><a [routerLink]="['/review']">Review</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="has-children">
+                            <span>
+                                <a>Categories</a>
+                                <span class="sub-menu-toggle"></span>
+                            </span>
+                            <ul class="slideable-submenu">
+                                <div *ngFor="let category of categoryTree">
+                                    <li *ngFor="let child of category._children">
+                                        <a [routerLink]="['/product-list', child.Name]">{{child.Apttus_Config2__Label__c}}</a>
+                                    </li>
+                                </div>
+                            </ul>
+                        </li>
+                        <li><span><a href="#"><span>Account</span></a><span class="sub-menu-toggle"></span></span>
+                        </li>
+                        <li><span><a href="#">Support</a><span class="sub-menu-toggle"></span></span>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <!-- Search Section-->
+            <div class="toolbar-section" id="search">
+                <form class="search-form form-inline my-2 my-lg-0" (ngSubmit)="onSubmit();" #theForm="ngForm">
+                  <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" required [(ngModel)]="searchQuery" name="searchQuery"><i class="material-icons search"></i>
+                </form>
+                <br/><br/>
+            </div>
+            <!-- Account Section-->
+            <div class="toolbar-section" id="account">
+                <ngb-tabset *ngIf="!user?.Id">
+                    <ngb-tab title="Log In">
+                        <ng-template ngbTabContent>
+                            <form (ngSubmit)="login()">
+                                    
+                                <div class="form-group">
+                                    <label for="username">Email address</label>
+                                    <input type="email" class="form-control" id="username" name="username" [(ngModel)]="username" placeholder="Enter email">
+                                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                                </div>
+                                <div class="form-group">
+                                    <label for="password">Password</label>
+                                    <input type="password" class="form-control" id="password" name="password" [(ngModel)]="password" placeholder="Password">
+                                </div>
+                                <!-- <div class="form-group">
+                                        <label for="usertype">User Type</label>
+                                        <select class="form-control" name="usertype"  placeholder="Select Type" id="usertype">
+                                            <option>Internal User</option>
+                                            <option>Partner User</option>
+                                            <option>End Customer</option>
+                                            
+                                        </select>
+                                    </div> -->
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                    <label class="form-check-label" for="exampleCheck1">Remember Me</label>
+                                </div>
+                                <button 
+                                    type="submit" 
+                                    class="btn-block btn btn-primary" 
+                                    [ladda]="loading"
+                                    *ngIf="storefront"
+                                    [style.backgroundColor]="storefront.APTSMD_Accent_Color__c">Login</button>
+                            </form>
+                        </ng-template>
+                    </ngb-tab>
+                    <ngb-tab title="Sign Up">
+                        <ng-template ngbTabContent >
+                            <div *ngIf="showSignUp">
+                            <form (ngSubmit)="onRegister()">
+                                <div class="form-group">
+                                    <label for="fname">First Name</label>
+                                    <input type="text" class="form-control" id="fname" name="fname" [(ngModel)]="regUser.FirstName" placeholder="First Name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="lname">Last Name</label>
+                                    <input type="text" class="form-control" id="lname" name="lname" [(ngModel)]="regUser.LastName" placeholder="Last Name">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="email">Email Address</label>
+                                    <input type="email" class="form-control" id="email" name="email" [(ngModel)]="regUser.Email" placeholder="Email Address">
+                                </div>
+                                <div class="form-group">
+                                    <label for="username">Username</label>
+                                    <input type="username" class="form-control" id="username" name="username" [(ngModel)]="regUser.Username" placeholder="Username">
+                                </div>
+                                
+                                <button 
+                                    type="submit" 
+                                    class="btn btn-block btn-primary" 
+                                    [ladda]="loading"
+                                    *ngIf="storefront"
+                                    [style.backgroundColor]="storefront.APTSMD_Accent_Color__c">Register</button>
+                            </form>
+                            </div>
+                            <div *ngIf="showSignUp==false">{{signUpMsg}}</div>
+                            <br/>
+                            <button 
+                                    type="button" 
+                                    class="btn btn-block btn-primary back" 
+                                    [ladda]="loading"
+                                    *ngIf="showSignUp==false"
+                                    (click)="back()"
+                                    [style.backgroundColor]="storefront.APTSMD_Accent_Color__c">Back</button>
+                        </ng-template>
+                    </ngb-tab>
+                </ngb-tabset>
+                <nav class="slideable-menu">
+                    <ul *ngIf="user?.Id" class="menu">
+                        <li>
+                            <span>
+                                <a>
+                                    <span>My Profile</span>
+                                </a>
+                            </span>
+                        </li>
+                        <li>
+                            <span>
+                                <a>
+                                    <span>My Account</span>
+                                </a>
+                            </span>
+                        </li>
+                        <li>
+                            <span>
+                                <a (click)="logout()">
+                                    <span>Log Out</span>
+                                </a>
+                            </span>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <!-- Shopping Cart Section-->
+            <div class="toolbar-section" id="cart">
+                <div class="table-responsive shopping-cart mb-0">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th colspan="2">
+                                    <div class="d-flex justify-content-between align-items-center">Products</div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody *ngIf="cart?.Apttus_Config2__LineItems__r?.records.length > 0; else empty">
+                            <tr *ngFor="let item of cart?.Apttus_Config2__LineItems__r?.records;" >
+                                <td>
+                                    <div class="product-item">
+                                        <a class="product-thumb" [routerLink]="['/product', item.Apttus_Config2__ProductId__r.ProductCode]">
+                                            <img [src]="sanitizer.bypassSecurityTrustUrl(item.Apttus_Config2__ProductId__r?.Apttus_Config2__IconId__c | image)" alt="Product">
+                                        </a>
+                                        <div class="product-info">
+                                            <h4 class="product-title">
+                                                <a href="#" [routerLink]="['/product', item.Apttus_Config2__ProductId__r.ProductCode]">{{item.Apttus_Config2__ProductId__r.Name}}</a>
+                                            </h4>
+                                            <span>
+                                                <em>Price:</em>
+                                                <strong *ngIf="item.Apttus_Config2__ListPrice__c != -1; else calcItem">{{item.Apttus_Config2__NetPrice__c | localCurrency | async}}</strong>
+                                                <ng-template #calcItem>
+                                                    <strong>Calculating...</strong>
+                                                </ng-template>
+                                            </span>
+                                            <span>
+                                                <em>Quantity:</em> 
+                                                {{item.Apttus_Config2__Quantity__c}}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="text-center">
+                                    <a class="remove-from-cart" (click)="removeCartItem(item)">
+                                        <i *ngIf="item._deleting" class='fa fa-circle-o-notch fa-spin'></i>
+                                        <i *ngIf="!item._deleting" class="material-icons icon_close"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tbody>
+                            <ng-template #empty>
+                                <tr>  
+                                    <td>
+                                        Your cart is empty
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </tbody>
+                    </table>
+                </div>
+                <hr class="mb-3">
+                <span  *ngIf="cart?.Apttus_Config2__LineItems__r?.records.length > 0">
+                    <div class="d-flex flex-wrap justify-content-between align-items-center"  
+                        *ngIf="cart && cart._state != 'calculating'; else calculating">
+                        <div class="pr-2 py-1 text-sm">
+                            <span class='text-dark text-medium'>
+                                <div *ngFor="let summary of cart?.Apttus_Config2__SummaryGroups__r?.records">
+                                    <span *ngIf="summary.Name === 'Grand Total'"> Total:  
+                                        {{ summary.Apttus_Config2__NetPrice__c | localCurrency | async}}
+                                    </span>
+                                </div>
+                                <ng-template #calculating>
+                                    <strong>Pricing Cart...</strong>
+                                </ng-template>
+                            </span>
+                        </div>
+                        <a class="btn btn-success mb-0 mr-0" style="background-color: rgb(30, 115, 141);" [routerLink]="['/cart']" onclick="$('.toolbar-toggle')[3].click()">Expand Cart</a>
+                    </div>
+                </span>
+            </div>
+        </div>
+    </div>

@@ -1,0 +1,8 @@
+ <owl-carousel
+     [options]="{items: 4, dots: true, navigation: false, stagePadding: 30}"
+     [items]="productList"
+     [carouselClasses]="['owl-theme', 'row', 'sliding']">
+     <div class="item" *ngFor="let product of productList;let i = index">
+        <product-card [product]="product" class="d-block mb-2" *ngIf="product?.Id"></product-card>
+     </div>
+ </owl-carousel>

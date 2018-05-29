@@ -1,0 +1,65 @@
+<li class="nav-item active" ngbDropdown placement="bottom-right" autoClose="outside" #miniCart="ngbDropdown">
+  <a href="javascript:void(0)" class="nav-link mr-3" ngbDropdownToggle>
+    <i class="fa fa-lg fa-shopping-cart"></i>
+    <span class="badge badge-secondary" *ngIf="itemCount && itemCount > 0">{{itemCount}}</span>
+  </a>
+  <div ngbDropdownMenu class="p-0 m-0 border-0">
+    <ul class="list-group" *ngIf="cart?.Apttus_Config2__LineItems__r?.records.length > 0; else empty">
+      <li class="media list-group-item d-flex" *ngFor="let item of cart?.Apttus_Config2__LineItems__r?.records">
+        <img class="mr-3 align-self-center" [src]="sanitizer.bypassSecurityTrustUrl(item.Apttus_Config2__ProductId__r?.Apttus_Config2__IconId__c | image)" alt="Generic placeholder image">
+        <div class="media-body">
+          <h6 class="m-0">
+            <a href="javascript:void(0)" (click)="miniCart.close()" [routerLink]="['/product', item.Apttus_Config2__ProductId__c]">
+              {{item.Apttus_Config2__ProductId__r.Name}}
+            </a>
+          </h6>
+          <small class="d-block">{{item.Apttus_Config2__ProductId__r.ProductCode}}</small>
+          <small>
+            <strong  *ngIf="item.Apttus_Config2__ListPrice__c != -1; else calcItem">{{item.Apttus_Config2__NetPrice__c | localCurrency | async}}</strong>
+            <ng-template #calcItem>
+              <strong>Calculating...</strong>
+            </ng-template>
+            
+            <span class="mx-2">|</span>
+            Quantity: {{item.Apttus_Config2__Quantity__c}}
+          </small>
+        </div>
+        <div class="ml-auto">
+          <button class="btn btn-link btn-sm" (click)="removeCartItem(item)" [ladda]="item._deleting" data-style="zoom-in">
+            <i class="fa fa-trash text-danger"></i>
+          </button>
+        </div>
+      </li>
+
+      <!--
+      <li class="list-group-item bg-light" *ngIf="cart._state != 'calculating'; else calculating">
+        <div class="d-flex justify-content-end" *ngFor="let summary of cart?.Apttus_Config2__SummaryGroups__r?.records">
+          <span *ngIf="summary.Name !== 'Grand Total'">{{summary.Name}} : {{summary.Apttus_Config2__NetPrice__c | localCurrency | async}}</span>
+          <span *ngIf="summary.Name === 'Grand Total'">
+            <strong>{{summary.Name}} : {{summary.Apttus_Config2__NetPrice__c | localCurrency | async}}</strong>
+          </span>
+        </div>
+      </li>
+      -->
+
+      <li class="list-group-item bg-light" *ngIf="cart._state != 'calculating'; else calculating">
+        <button (click)="miniCart.close()" class="btn btn-primary btn-block" [routerLink]="['/cart']">Checkout</button>
+      </li>
+      <ng-template #calculating>
+        <li class="list-group-item bg-light">
+          <div class="d-flex justify-content-end">
+            <strong>Pricing Cart...</strong>
+          </div>
+        </li>
+      </ng-template>
+    </ul>
+
+    <ng-template #empty>
+      <ul class="list-group">
+        <li class="list-group-item bg-light">
+          Your cart is empty
+        </li>
+      </ul>
+    </ng-template>
+  </div>
+</li>

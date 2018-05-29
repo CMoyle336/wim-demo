@@ -1,0 +1,21 @@
+<breadcrumbs [breadPageTitle]="pageTitle"></breadcrumbs>
+<!-- Page Content-->
+<div class="container padding-bottom-3x mb-2 pt-5">
+    <div class="card text-center border-default">
+        <div class="card-body padding-top-2x">
+            <h3 class="card-title mb-4">Thank you for your order!</h3>
+            <p class="text-sm mb-2">Your order has been placed and will be processed as soon as possible.</p>
+        <p class="text-sm mb-2">Make sure you make note of your order number, which is <span class="text-medium">{{ orderId  }} </span></p>
+            <p class="text-sm mb-2">You will be receiving an email shortly with confirmation of your order. 
+            </p>
+             <a 
+                *ngIf="storefront"
+                [style.borderColor]="storefront.APTSMD_Accent_Color__c"
+                class="btn btn-outline-primary" style="color: #faf8f8;background-color: rgb(30, 115, 141);" [routerLink]="['/']">Go Back Shopping</a>
+             <a 
+                *ngIf="storefront"
+                [style.backgroundColor]="storefront.APTSMD_Accent_Color__c"
+                class="btn btn-primary" [routerLink]="['/order-list']">View Your Orders</a>
+        </div>
+    </div>
+</div>

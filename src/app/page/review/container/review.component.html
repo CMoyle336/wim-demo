@@ -1,0 +1,204 @@
+<breadcrumbs [breadPageTitle]="pageTitle"></breadcrumbs>
+<!-- Page Content-->
+<div class="container padding-bottom-3x mb-2 pt-5">
+    <div class="row">
+        <!-- Checkout Shipping-->
+        <div class="col-xl-9 col-lg-8">
+            <div class="steps flex-sm-nowrap mb-5">
+                <a class="step" [routerLink]="['/address']">
+                    <h4 class="step-title">1. Address</h4>
+                </a>
+                <a class="step" [routerLink]="['/shipping']">
+                    <h4 class="step-title">2. Shipping</h4>
+                </a>
+                <a class="step" [routerLink]="['/payment']">
+                    <h4 class="step-title">3. Payment</h4>
+                </a>
+                <a 
+                    class="step active" 
+                    [routerLink]="['/review']"
+                    *ngIf="storefront"
+                    [style.borderColor]="storefront.APTSMD_Accent_Color__c">
+                    <h4 
+                        *ngIf="storefront"
+                        [style.color]="storefront.APTSMD_Accent_Color__c"
+                        class="step-title">4. Review</h4>
+                </a>
+            </div>
+            <h4>Review Your Order</h4>
+            <div class="table-responsive shopping-cart mb-0">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Product Name</th>
+                            <th class="text-center">Subtotal</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="cart?.Apttus_Config2__LineItems__r?.records.length > 0;">
+                        <tr *ngFor="let item of cart?.Apttus_Config2__LineItems__r?.records;" >
+                            <td>
+                                <div class="product-item">
+                                    <a class="product-thumb" [routerLink]="['/product', item.ProductCode]">
+                                        <img [src]="sanitizer.bypassSecurityTrustUrl(item.Apttus_Config2__ProductId__r?.Apttus_Config2__IconId__c | image)"
+                                        alt="Product">
+                                    </a>
+                                    <div class="product-info">
+                                        <h4 class="product-title">
+                                            <a [routerLink]="['/product', item.Apttus_Config2__ProductId__r.ProductCode]">{{item.Apttus_Config2__ProductId__r.Name}}
+                                                <small>x{{item.Apttus_Config2__Quantity__c}}</small>
+                                            </a>
+                                        </h4>
+                                        <span>
+                                            <em>Product Code:</em> {{item.Apttus_Config2__ProductId__r.ProductCode}}</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="text-center text-lg text-medium">
+                                    <span *ngIf="item.Apttus_Config2__ListPrice__c != -1; else calcItem">{{item.Apttus_Config2__NetUnitPrice__c | localCurrency | async}}
+                                    </span>
+                                    <ng-template #calcItem>
+                                        <strong>Calculating...</strong>
+                                    </ng-template>
+                                </td>
+                                <td class="text-center">
+                                    <a class="btn btn-outline-secondary btn-sm" [routerLink]="['/cart']">Edit</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <hr class="padding-bottom-1x">
+                <div class="text-right padding-bottom-1x">
+                    <table class="table">
+
+                        <tr *ngFor="let summary of cart?.Apttus_Config2__SummaryGroups__r?.records">
+
+                            <td *ngIf="summary.Name !== 'Grand Total'">{{summary.Name}}:</td>
+                            <td *ngIf="summary.Name !== 'Grand Total'" class="text-medium">{{summary.Apttus_Config2__NetPrice__c | localCurrency | async}}</td>
+
+                            <td *ngIf="summary.Name === 'Grand Total'">
+                                <strong>Total: </strong>
+                            </td>
+                            <td *ngIf="summary.Name === 'Grand Total'" class="text-lg text-medium">
+                                <strong>{{summary.Apttus_Config2__NetPrice__c | localCurrency | async}}</strong>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong>Shipping Charge:</strong>
+                            </td>
+                            <td class="text-lg text-medium" >
+                                
+                                <strong>{{shippingCharge | localCurrency | async}}</strong>
+                            </td>
+                    </tr>
+                    <tr>
+                        <td>
+                                <strong>Grand Total:</strong>
+                        </td>
+                        <td class="text-lg text-medium">
+                                <strong>{{(total + shippingCharge) | localCurrency | async}}</strong>
+                        </td>
+                    </tr>  
+
+                    </table>
+                    <ng-template #calculating>
+                        <span class="list-group-item bg-light">
+                            <div class="d-flex justify-content-end">
+                                <strong>Pricing Cart...</strong>
+                            </div>
+                        </span>
+                    </ng-template>
+                </div>
+                <div class="row padding-top-1x mt-3 mb-4">
+                    <div class="col-sm-6">
+                        <h5>Name</h5>
+                        <ul class="list-unstyled text-sm">
+                            <li>
+                                <span class='text-muted'></span> {{contact?.FirstName}} {{contact?.LastName}}
+                            </li>
+                            <!-- <li>
+                                <span class='text-muted'>Address:</span> 4918 Diamond Cove, West Warwick, RI, 02893
+                            </li>
+                            <li>
+                                <span class='text-muted'>Phone:</span> 401-398-3016
+                            </li> -->
+                        </ul>
+                                </div>
+                                <div class="col-sm-6">
+                                    <h5>Payment method:</h5>
+                                    <ul class="list-unstyled text-sm">
+                                        <li>
+                                            <span *ngIf="cart?.APTSCU_PO_Number__c=='' || cart?.APTSCU_PO_Number__c==null" class='text-muted'>Credit Card: xxxx-xxxx-xxxx-3432</span> 
+                                            <span *ngIf="cart?.APTSCU_PO_Number__c" class='text-muted'>Purchase Order : </span> {{cart?.APTSCU_PO_Number__c}}
+                                        </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <hr class="padding-bottom-1x">
+                                <div class="d-flex justify-content-between">
+                                    <a class="btn btn-outline-secondary m-0" [routerLink]="['/payment']">Back</a>
+                                    <button
+                                        *ngIf="storefront"
+                                        [style.backgroundColor]="storefront.APTSMD_Accent_Color__c"
+                                        class="btn btn-primary m-0" 
+                                        (click)="completeOrder()">
+                                            <i *ngIf="loading" class='fa fa-circle-o-notch fa-spin'></i>
+                                        Complete Order
+                                </button>
+                            </div>
+                        </div>
+                        <!-- Sidebar          -->
+                        <div class="col-xl-3 col-lg-4">
+                            <aside class="sidebar">
+                                <div class="padding-top-2x hidden-lg-up"></div>
+                                <!-- Order Summary Widget-->
+                                <section class="widget widget-order-summary border-0 p-4" style="background-color: #f5f5f5 !important;">
+                                    <h3 class="widget-title">Order Summary</h3>
+                                    <table class="table text-sm mb-0">
+
+                                        <tr *ngFor="let summary of cart?.Apttus_Config2__SummaryGroups__r?.records">
+
+                                            <td *ngIf="summary.Name !== 'Grand Total'">{{summary.Name}}:</td>
+                                            <td *ngIf="summary.Name !== 'Grand Total'" class="text-medium">{{summary.Apttus_Config2__NetPrice__c | localCurrency | async}}</td>
+
+                                            <td *ngIf="summary.Name === 'Grand Total'">
+                                                <strong>Total: </strong>
+                                            </td>
+                                            <td *ngIf="summary.Name === 'Grand Total'" class="text-lg text-medium">
+                                                <strong>{{summary.Apttus_Config2__NetPrice__c | localCurrency | async}}</strong>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>
+                                                    <strong>Shipping Charge:</strong>
+                                                </td>
+                                                <td class="text-lg text-medium" >
+                                                    
+                                                    <strong>{{shippingCharge | localCurrency | async}}</strong>
+                                                </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                    <strong>Grand Total:</strong>
+                                            </td>
+                                            <td class="text-lg text-medium">
+                                                    <strong>{{(total + shippingCharge) | localCurrency | async}}</strong>
+                                            </td>
+                                        </tr>  
+
+                                    </table>
+                                    <ng-template #calculating>
+                                        <span class="list-group-item bg-light">
+                                            <div class="d-flex justify-content-end">
+                                                <strong>Pricing Cart...</strong>
+                                            </div>
+                                        </span>
+                                    </ng-template>
+                                </section>
+
+                            </aside>
+                        </div>
+                    </div>
+                </div>

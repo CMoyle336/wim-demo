@@ -1,0 +1,14 @@
+img{
+    max-width: 3rem;
+}
+.dropdown-menu{
+    min-width: 25rem;
+}
+.dropdown-toggle::after {
+    display:none
+}
+span.badge{
+    bottom: -3px;
+    position: absolute;
+    right: 10px;
+}

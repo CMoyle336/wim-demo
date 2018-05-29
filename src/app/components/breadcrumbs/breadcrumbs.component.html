@@ -1,0 +1,26 @@
+<div class="page-title" >
+    <div class="container-fluid">
+        <div class="float-right"><span *ngIf="user?.Id" class="account-username">Hi, {{user?.FirstName}} 
+            <span *ngIf="user?.User_Type__c=='Partner User'">
+                , Buy For:
+                <select  name="partnerAccountName">
+                        <option value="DF Clothing">DF Clothing</option>
+                        <option value="Anderson Clothing">Anderson Clothing</option>
+                        <option value="Baker Clothing">Baker Clothing</option>
+                        <option value="Cunningham Clothing">Cunningham Clothing</option>
+                    </select>
+            </span></span>
+            </div>           
+        <ul class="breadcrumbs float-left">
+            <li class="breadcrumb-item">
+                <a *ngIf="storefront"
+                    [routerLink]="'/home'" 
+                    [style.color]="storefront.APTSMD_Accent_Color__c">
+                    Home
+                </a>
+            </li>
+			<li class="separator">&nbsp;/&nbsp;</li>
+			<li>{{breadPageTitle}}</li>
+        </ul>
+    </div>
+</div>

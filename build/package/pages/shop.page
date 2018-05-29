@@ -1,0 +1,26 @@
+<apex:page standardStylesheets="false" showHeader="false" sidebar="false" docType="html-5.0" applyHtmlTag="false" applyBodyTag="false">
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <title>Wim</title>
+  <base href="/"/>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <link rel="icon" type="image/x-icon" href="{!URLFOR($Resource.shop, '/favicon.ico')}"/>
+<link rel="stylesheet" href="{!URLFOR($Resource.shop, '/styles.3d219f5fe7a009d0af61.css')}"/><script>
+                                            window.sv = {
+                                                accessToken: '{!$Api.Session_ID}',
+                                                params: window.location.search,
+                                                user: '{!$User.Id}',
+                                                resource: '{!URLFOR($Resource.shop)}',
+                                                organizationId: '{!$Organization.Id}',
+                                                salesforceEndpoint : '{!$Site.Domain}',
+                                                baseURL : '{!$Site.BaseCustomUrl}'
+                                            }
+                                        </script>
+                                        </head>
+<body>
+  <app-root></app-root>
+<script type="text/javascript" src="{!URLFOR($Resource.shop, 'runtime.38d8cc1d9f450d64a92a.js')}"></script><script type="text/javascript" src="{!URLFOR($Resource.shop, 'polyfills.02aa795daeda1612be25.js')}"></script><script type="text/javascript" src="{!URLFOR($Resource.shop, 'scripts.49cb9f44c7193e68d3b9.js')}"></script><script type="text/javascript" src="{!URLFOR($Resource.shop, 'main.5f5f976e1904b3bf8780.js')}"></script></body>
+</html>
+</apex:page>

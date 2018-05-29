@@ -1,0 +1,79 @@
+<pdp-breadcrumb [product]="product" [categoryList]="categoryList"></pdp-breadcrumb> 
+<div class="bg-secondary" style="margin-top: -29px">
+    <div class="container padding-bottom-3x pt-5 mb-1" *ngIf="product">
+        <div class="row">
+            <!-- Product Gallery-->
+            <div class="col-md-6 mb-30">
+                <div *ngIf="product" class="product-gallery">
+                    <product-images [product]="product"></product-images>
+                </div>
+            </div>
+            <!-- Product Info-->
+            <div class="col-md-6 mb-30">
+                <div class="card border-default bg-white pt-2 box-shadow">
+                    <div class="card-body">
+                        <h2 class="mb-3">{{product?.Name}}</h2>
+                        <h3 class="text-normal">
+                           <price [priceListItem]="product?.Apttus_Config2__PriceLists__r?.records[0]" [showUom]="true"></price>
+                        </h3>
+                        <p 
+                            class="text-sm text-muted"
+                            [innerHTML]="product?.Long_Description__c"></p>
+                        
+                        <pdp-add-to-cart 
+                            [productAttributes]="productAttributeList" 
+                            [product]="product" 
+                            [priceMatrices]="priceMatrixData"
+                        ></pdp-add-to-cart>
+                        
+                        <ul class="list-unstyled text-sm mb-4">
+                            <li><star-rating [starType]="'icon'" [rating]="product.APTSCU_Rating__c" *ngIf="product"></star-rating></li>
+                            <li>{{product?.ProductCode}}</li>
+                            <li><a target="_blank" href="/servlet/servlet.FileDownload?file={{product?.File_URL__c}}">{{product?.Literature__c}}</a></li>
+                            <li>
+                            </li>
+                        </ul>
+                        <div *ngIf="productAttributeList?.length > 0 || productReviewList?.length > 0 ">
+                            <product-details-attribute-groups 
+                                [productAttributes]="productAttributeList" 
+                                [product]="product" 
+                                [priceMatrices]="priceMatrixData">
+                            </product-details-attribute-groups>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container padding-bottom-3x pt-5 mb-1">
+    <!-- Details-
+    <div class="row pt-2">
+        <div *ngIf="productAttributeList?.length > 0 || productReviewList?.length > 0 " class="col-md-6">
+            <product-details-attribute-groups 
+                [productAttributes]="productAttributeList" 
+                [product]="product" 
+                [priceMatrices]="priceMatrixData">
+            </product-details-attribute-groups>
+            
+            
+        </div>
+         <div *ngIf="includedProducts?.length > 0 || recommendedProducts?.length > 0" class="col-md-6">
+            <pdp-rules [productList]="includedProducts" *ngIf="includedProducts?.length > 0"></pdp-rules>
+            <pdp-rules [productList]="recommendedProducts" *ngIf="recommendedProducts?.length > 0" title="" type=""></pdp-rules>   
+        </div>  
+    </div>-->
+   
+    <div class="container-fluid">   
+        <div *ngIf="recommendedProducts?.length > 0">
+            <h3 class="text-center" >Recommended Products</h3>
+            <product-carousel [productList]="recommendedProducts"></product-carousel>
+        </div>
+    </div>    
+<div class="container-fluid">   
+    <div *ngIf="relatedProducts?.length > 0">
+        <h3 class="text-center padding-top-2x mt-2 padding-bottom-1x">You May Also Like</h3>
+        <product-carousel [productList]="relatedProducts"></product-carousel>
+    </div>
+</div>

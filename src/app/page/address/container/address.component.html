@@ -1,0 +1,60 @@
+<breadcrumbs [breadPageTitle]="pageTitle"></breadcrumbs>
+<!-- Page Content-->
+<div class="container padding-bottom-3x mb-2 pt-5">
+    <div class="row">
+        <!-- Checkout Address-->
+        <div class="col-xl-9 col-lg-8">
+            <div class="steps flex-sm-nowrap mb-5">
+                <a  
+                    class="step active" 
+                    [routerLink]="['/address']"
+                    *ngIf="storefront"
+                    [style.borderColor]="storefront.APTSMD_Accent_Color__c">
+                    <h4
+                        *ngIf="storefront"
+                        [style.color]="storefront.APTSMD_Accent_Color__c"
+                        class="step-title">1. Address</h4>
+                </a>
+                <a class="step" [routerLink]="['/shipping']">
+                    <h4 class="step-title">2. Shipping</h4>
+                </a>
+                <a class="step" [routerLink]="['/payment']">
+                    <h4 class="step-title">3. Payment</h4>
+                </a>
+                <a class="step" [routerLink]="['/review']">
+                    <h4 class="step-title">4. Review</h4>
+                </a>
+            </div>
+            <address-form></address-form>
+        </div>
+        <!-- Sidebar -->
+        <div class="col-xl-3 col-lg-4">
+            <aside class="sidebar">
+                <div class="padding-top-2x hidden-lg-up"></div>
+                <!-- Order Summary Widget-->
+                <section class="widget widget-order-summary bg-secondary border-0 p-4">
+                    <h3 class="widget-title">Order Summary</h3>
+                    <table class="table text-sm mb-0">
+                        <tr *ngFor="let summary of cart?.Apttus_Config2__SummaryGroups__r?.records">
+                            <td *ngIf="summary.Name !== 'Grand Total'">{{summary.Name}}:</td>
+                            <td *ngIf="summary.Name !== 'Grand Total'"class="text-medium">{{summary.Apttus_Config2__NetPrice__c | localCurrency | async}}</td>
+                            <td *ngIf="summary.Name === 'Grand Total'">
+                                <strong>{{summary.Name}}: </strong>
+                            </td>
+                            <td *ngIf="summary.Name === 'Grand Total'" class="text-lg text-medium">
+                                <strong>{{summary.Apttus_Config2__NetPrice__c | localCurrency | async}}</strong>
+                            </td>
+                        </tr>
+                    </table>
+                    <ng-template #calculating>
+                        <span class="list-group-item bg-light">
+                            <div class="d-flex justify-content-end">
+                                <strong>Pricing Cart...</strong>
+                            </div>
+                        </span>
+                    </ng-template>
+                </section>
+            </aside>
+        </div>
+    </div>
+</div>

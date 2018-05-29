@@ -1,0 +1,92 @@
+<div class="accordion">
+<ngb-accordion [closeOthers]="false" activeIds="static-1">
+    <ngb-panel id="static-1">        
+            <ng-template ngbPanelTitle>
+                <i class="material-icons payment"></i>Pay with Credit Card
+            </ng-template>
+            <ng-template ngbPanelContent>
+                <div class="card-body">
+                    <p class="text-sm">We accept following credit cards:&nbsp;<img class="d-inline-block align-middle" src="/resource/SV_ECommerce/assets/cards.png" style="width: 187px;" alt="Cerdit Cards"></p>
+                    <div class="card-wrapper"></div>
+                    <form class="interactive-credit-card row">
+                        <div class="form-group col-sm-6">
+                            <input class="form-control" type="text" name="number" placeholder="xxxx-xxxx-xxxx-3432" required>
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <input 
+                            class="form-control" 
+                            type="text" 
+                            name="name" 
+                            placeholder="{{contact?.FirstName}} {{contact?.LastName}}" required>
+                        </div>
+                        <div class="form-group col-sm-3">
+                            <input class="form-control" type="text" name="expiry" placeholder="03/21" required>
+                        </div>
+                        <div class="form-group col-sm-3">
+                            <input class="form-control" type="text" name="cvc" placeholder="432" required>
+                        </div>
+                        <div class="col-sm-6">
+                            <button 
+                            *ngIf="storefront"
+                            [style.borderColor]="storefront.APTSMD_Accent_Color__c"
+                            class="btn btn-outline-primary btn-block margin-top-none" style="color: #faf8f8;background-color: rgb(30, 115, 141);" type="submit">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </ng-template>
+    </ngb-panel>
+    <ngb-panel id="static-2">
+        <ng-template ngbPanelTitle>
+               Pay with PayPal
+        </ng-template>
+        <ng-template ngbPanelContent>
+            <div class="card-body">
+                <p class="text-sm">PayPal - the safer, easier way to pay</p>
+                <form class="row" method="post">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <input class="form-control" type="email" placeholder="E-mail" required>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <input class="form-control" type="password" placeholder="Password" required>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="d-flex flex-wrap justify-content-between align-items-center"><a class="navi-link text-sm" href="#">Forgot password?</a>
+                            <button class="btn btn-outline-primary margin-top-none" type="submit">Log In</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </ng-template>
+    </ngb-panel>
+    <ngb-panel id="static-3">
+        <ng-template ngbPanelTitle>
+            <i class="material-icons redeem"></i>Redeem Reward Points
+        </ng-template>
+        <ng-template ngbPanelContent>
+            <div class="card-body">
+                <p>You currently have<span class="text-medium text-dark"> 622</span> Reward Points to spend.</p>
+                <div class="custom-control custom-checkbox d-block">
+                    <input class="custom-control-input" type="checkbox" id="use_points">
+                    <label class="custom-control-label" for="use_points">Use my Reward Points to pay for this order.</label>
+                </div>
+            </div>
+        </ng-template>
+    </ngb-panel>
+    <ngb-panel id="static-4">
+        <ng-template ngbPanelTitle>
+            <i class="material-icons format_list_numbered"></i>Purchase Order
+        </ng-template>
+        <ng-template ngbPanelContent>
+            <div class="card-body">
+                <div class="custom-control custom-checkbox d-block">
+                   <input class="form-control" type="text" [(ngModel)]="cart.APTSCU_PO_Number__c" placeholder="Purchase Order Number" id="purchase_order_no">
+                </div>
+            </div>
+        </ng-template>
+    </ngb-panel>
+</ngb-accordion>
+</div>

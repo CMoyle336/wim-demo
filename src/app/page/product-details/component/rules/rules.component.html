@@ -1,0 +1,48 @@
+<div>
+    <h3>{{title}}</h3>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Service</th>
+                    <th>Monthly Price</th>
+                    <th>Quantity</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let product of productList">
+                    <td>
+                        <p [innerHTML]="product.APTSMD_Long_Description__c"></p>
+                    </td>
+                    <td>
+                        <span *ngIf="type == 'Inclusion'; else price">Included</span>
+                        <ng-template #price>
+                            <price 
+                                [priceListItem]="product?.Apttus_Config2__PriceLists__r?.records[0]" 
+                                [showUom]="false">
+                            </price>
+                        </ng-template>
+                    </td>
+                    <td>
+                        <span *ngIf="type == 'Inclusion'; else quantity">1</span>
+                        <ng-template #quantity>
+                            <input class="form-control" id="inputGroupSelect01" name="quantity" type="number" min="1">
+                            <!-- <select class="custom-select" id="inputGroupSelect01" name="quantity">
+                                <option selected value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select> -->
+                        </ng-template>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

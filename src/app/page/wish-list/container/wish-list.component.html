@@ -1,0 +1,50 @@
+<breadcrumbs [breadPageTitle]="pageTitle"></breadcrumbs>
+<div class="container-fluid">
+  <div class="row"></div>
+  <h3>My Wish List</h3>
+    <div class="row">
+        <div class="col-lg-2 col-md-2 col-xs-2 col-sm-2"></div>
+        <div class="col-lg-8 col-md-8 col-xs-8 col-sm-8">
+            <div class="row">
+              <table class="table table-sm">
+                <thead>
+                  <tr>
+                    <th scope="col">Product</th>
+                    <th scope="col">Availability</th>
+                    <th scope="col">Earliest Available Date</th>
+                    <th scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody *ngIf="user != null && user.Alias!='guest'">
+                  <tr *ngFor="let wishlist of wishlists;let i = index">
+                   <td>{{wishlist.Product__r.Name}}</td>
+                   <td>  
+                    <h6 *ngIf="wishlist.Product__r.APTSCU_Availability__c=='In Stock'"  style="margin-bottom: -13px;color:Green;font-weight:bold;">{{wishlist.Product__r.APTSCU_Availability__c}}</h6>
+                    <h6 *ngIf="wishlist.Product__r.APTSCU_Availability__c=='Out of Stock'"  style="margin-bottom: -13px;color:red;font-weight:bold;">{{wishlist.Product__r.APTSCU_Availability__c}}</h6>
+                    <h6 *ngIf="wishlist.Product__r.APTSCU_Availability__c=='Low Stock'"  style="margin-bottom: -13px;color:yellow;font-weight:bold;">{{wishlist.Product__r.APTSCU_Availability__c}}</h6>
+                    <h6 *ngIf="!wishlist.Product__r.APTSCU_Availability__c" style="margin-bottom: -13px;color:Green;font-weight:bold;">{{'In Stock'}}</h6>
+                  </td>
+                   <td>
+                      <span *ngIf="wishlist.Product__r.APTSCU_Availability__c=='Out of Stock'">{{wishlist.Product__r.APTSCU_Earliest_Availability_Date__c | date}}</span>
+                  </td>
+                  <td><button 
+                        (click)="addToCart(wishlist.Product__c)" 
+                        [disabled]="wishlist.Product__r.APTSCU_Availability__c=='Out of Stock'"
+                         *ngIf="storefront"
+                        [style.backgroundColor]="storefront.APTSMD_Accent_Color__c"
+                        class="btn btn-primary btn-sm" 
+                        data-toast data-toast-type="success" 
+                        data-toast-position="topRight" 
+                        data-toast-icon="material-icons check" 
+                        data-toast-title="Product" 
+                        data-toast-message="successfuly added to cart!">
+                            <i *ngIf="loading" class='fa fa-circle-o-notch fa-spin'></i>
+                        Add to Cart</button>
+                   </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+        </div>
+    </div>
+  </div> 

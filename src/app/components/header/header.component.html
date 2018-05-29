@@ -1,0 +1,106 @@
+
+<nav class="navbar navbar-sticky navbar-expand-lg navbar-light bg-light fixed-top">
+    <div class="site-branding">
+        <a class="site-logo hidden-xs-down" [routerLink]="['/']">
+            <img [src]="storefront?.APTSMD_Store_Logo__c | image"/>
+            <span style="font-size: 150%;" *ngIf="user?.User_Type__c=='Partner User'">Partner</span>
+        </a>
+        <a class="site-logo logo-sm hidden-sm-up" [routerLink]="['/']">
+            <img [src]="storefront?.APTSMD_Store_Logo__c | image"/>
+        </a>
+        <a class="navbar-brand" href="#" *ngIf="!storefront?.APTSMD_Store_Logo__c"></a>
+    </div>
+    <ul class="site-menu" >
+        <li >
+            <a
+                *ngIf="storefront"
+                #rla="routerLinkActive" 
+                routerLinkActive 
+                [ngStyle]="rla.isActive ? {'color' : storefront.APTSMD_Accent_Color__c} : {'color' : '#606060'}" 
+                [routerLink]="['/']"><span>Home</span></a>
+        </li>
+        <li>
+            <a><span>Shop</span></a>
+            <ul class="sub-menu">
+                <li class="has-children" *ngFor="let category of categoryTree">
+                    <a [routerLink]="['/product-list', category.Apttus_Config2__Label__c]">
+                    <span>{{category.Apttus_Config2__Label__c}}</span></a>
+                    <ul class="sub-menu">
+                        <li *ngFor="let child of subcats2">
+                            <a [routerLink]="['/product-list', child.Name]" >{{child.Apttus_Config2__Label__c}}</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a [routerLink]="['/cart']" >Cart</a>
+                </li>
+                <li class="has-children">
+                    <a [routerLink]="['/cart']"><span>Checkout</span></a>
+                    <ul class="sub-menu">             
+                        <li><a [routerLink]="['/address']">Address</a></li>
+                        <li><a [routerLink]="['/shipping']">Shipping</a></li>
+                        <li><a [routerLink]="['/payment']">Payment</a></li>
+                        <li><a [routerLink]="['/review']">Review</a></li>
+                        
+                    </ul>
+                </li>
+                <li>
+                        <a [routerLink]="['/bulk-order']" >Bulk Order</a>
+                </li>
+                
+            </ul>
+        </li>
+        <li><a><span> Categories</span></a>
+            <ul class="mega-menu">
+                <li *ngFor="let category of categoryTree">
+                    <span class="mega-menu-title text-uppercase">
+                        <a 
+                            [routerLink]="['/product-list', category.Apttus_Config2__Label__c]"
+                            [style.color]="storefront.APTSMD_Accent_Color__c">{{category.Apttus_Config2__Label__c}}</a>
+                    </span>
+                    <ul>
+                        <li *ngFor="let child of subcats2">
+                            <a [routerLink]="['/product-list', child.Name]" >{{child.Apttus_Config2__Label__c}}</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li ><a><span>Account</span></a>
+            <ul class="sub-menu" style="color:#303030!important">
+                <li><a [routerLink]="['/order-list']">Orders List</a></li>
+                <li><a [routerLink]="['/wish-list']">Wish List</a></li>
+                <li><a [routerLink]="['/dashboard']">Dashboard</a></li>
+                <li><a>Profile Page</a></li>
+                <li><a>Shipping Address</a></li>
+                <li><a>My Tickets</a></li>
+                <li><a>Single Ticket</a></li>
+                <li><a>Password Recovery</a></li>
+            </ul>
+        </li>
+        
+        <li><a><span>Support</span></a>
+            <ul class="sub-menu">
+                <li><a onclick="TogetherJS(this); return false;">Collaborate</a></li>
+                <li><a [routerLink]="['/contact']">Contact Us</a></li>
+            </ul>
+        </li>
+        
+    </ul>
+    <header-toolbar></header-toolbar>
+</nav>
+<nav class="navbar" style="z-index: 0 !important;background:#545454 !important;margin-top:50px">
+   
+        <ul class="site-menu pull-right" style="color:white !important;">
+            <li><a href="#" class="fa fa-twitter fa-3x"  style="color:white;margin-top: 50px!important;font-size: 1.7em!important;"></a></li>
+            <li><a href="#" class="fa fa-facebook fa-3x " style="color:white;margin-top: 50px!important;font-size: 1.7em!important;"></a></li>
+            <li><a href="#" class="fa fa-youtube-square	fa-3x " style="color:white;margin-top: 50px!important;font-size: 1.7em!important;"></a></li>
+            <li><a href="#" class="fa fa-linkedin-square fa-3x " style="color:white;margin-top: 50px!important;font-size: 1.7em!important;"></a></li>
+            <li><a href="#"  style="color:white;margin-top: 45px!important;font-size: 1.2em!important;">&nbsp;| <font style="font-size:0.7em;">WORLD WIDE</font></a></li>
+            <li><a href="#"  style="color:white;margin-top: 45px!important;font-size: 1.2em!important;">&nbsp;| <font style="font-size:0.7em;">QUICK LINKS</font></a></li>
+            <!-- <li><a onclick="TogetherJS(this); return false;"  class="fa fa-link fa-3x " style="color:white;margin-top: 50px!important;font-size: 1.7em!important;">&nbsp;| <font style="font-size:0.7em;" >Collaboration</font></a></li> -->
+           
+        </ul>
+        
+    </nav>
+

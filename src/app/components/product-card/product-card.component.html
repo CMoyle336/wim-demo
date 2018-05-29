@@ -1,0 +1,84 @@
+<div class="product-card mb-30">
+    <div class="product-card-thumb">
+        <span class="product-rating text-warning">
+            <star-rating [starType]="'icon'" [rating]="product?.APTSCU_Rating__c" class="d-flex justify-content-begin"></star-rating>
+        </span>
+        <a class="product-card-link" [routerLink]="['/product', product.Id]"></a>
+        <img class="img-fluid"  
+            [lazyLoad]="product.Apttus_Config2__IconId__c | image" 
+            [alt]="product.Name">
+            <div class="row">
+                    <div class="col-lg-8 col-md-10 col-xs-12 col-sm-12">
+                    
+                </div>
+            </div>
+        <div class="product-card-buttons" >
+            <div class="row">
+                <div class="col-4">
+                        <div *ngIf="!product.Apttus_Config2__HasAttributes__c" >
+                                <button 
+                                (click)="addToCart()" 
+                                [disabled]="product.APTSCU_Availability__c === 'Out of Stock'"
+                                 *ngIf="storefront"
+                                [style.backgroundColor]="storefront.APTSMD_Accent_Color__c"
+                                class="btn btn-primary btn-sm" 
+                                data-toast data-toast-type="success" 
+                                data-toast-position="topRight" 
+                                data-toast-icon="material-icons check" 
+                                data-toast-title="Product" 
+                                data-toast-message="successfuly added to cart!">
+                                    <i *ngIf="loading" class='fa fa-circle-o-notch fa-spin'></i>
+                                Add to Cart</button>
+                            </div>
+                            <div *ngIf="product.Apttus_Config2__HasAttributes__c" >
+                                <button 
+                                    (click)="navigateToProductCard(product.Id)" 
+                                    [disabled]="product.APTSCU_Availability__c=='Out of Stock'"
+                                    *ngIf="storefront"
+                                    [style.backgroundColor]="storefront.APTSMD_Accent_Color__c"
+                                    class="btn btn-primary btn-sm" 
+                                    data-toast data-toast-type="success" 
+                                    data-toast-position="topRight">
+                                        <i *ngIf="loading" class='fa fa-circle-o-notch fa-spin'></i>
+                                    Customize</button>
+                            </div>
+                </div>
+                <div class="col-2"></div>
+                <div class="col-6">
+                        <button
+                        (click)="addToWishList(product.Id)" 
+                         *ngIf="storefront"
+                        [style.backgroundColor]="storefront.APTSMD_Accent_Color__c" 
+                        class="btn btn-primary btn-sm">
+                           
+                        WishList</button>
+                </div>
+            </div>
+            
+                
+        </div>
+    </div>
+    <div >
+        <div>
+            <input type="checkbox" (change)="addToCompare($event , product.Id)"  value="Add to compare" />Add to compare
+        </div>
+        <div><span style="font-weight:bold;"><a [routerLink]="['/product', product.Id]">{{product.Name}}</a></span></div>
+        <div>
+            <span > List Price:</span>
+            <span style="float:right;" *ngIf="!isloggedin || !contractPrice">{{product.Apttus_Config2__PriceLists__r?.records[0]?.Apttus_Config2__ListPrice__c | localCurrency | async}}</span>
+            <span style="float:right;text-decoration:line-through" *ngIf="contractPrice && isloggedin">{{product.Apttus_Config2__PriceLists__r?.records[0]?.Apttus_Config2__ListPrice__c | localCurrency | async}}</span>
+        </div>
+        <div *ngIf="contractPrice && isloggedin"><span >Discount Price:</span><span style="float:right;"> {{contractPrice?.Apttus_Config2__ListPrice__c | localCurrency | async}}</span></div>
+        <div *ngIf="product">
+            <h6 *ngIf="product.APTSCU_Availability__c=='In Stock' && isloggedin"  style="margin-bottom: -13px;color:Green;font-weight:bold;">{{product.APTSCU_Availability__c}}</h6>
+            <h6 *ngIf="product.APTSCU_Availability__c=='Out of Stock' && isloggedin"  style="margin-bottom: -13px;color:red;font-weight:bold;">{{product.APTSCU_Availability__c}}</h6>
+            <h6 *ngIf="product.APTSCU_Availability__c=='Low Stock' && isloggedin"  style="margin-bottom: -13px;color:orange;font-weight:bold;">{{product.APTSCU_Availability__c}}</h6>
+            <h6 *ngIf="!product.APTSCU_Availability__c && isloggedin" style="margin-bottom: -13px;color:Green;font-weight:bold;">{{'In Stock'}}</h6>
+        </div>
+        <div style="margin-top: 13px;" *ngIf="product && product.APTSCU_Availability__c=='Out of Stock' && isloggedin">
+            <span >Available On:</span><span style="float:right;">{{product.APTSCU_Earliest_Availability_Date__c | date}}</span>
+        </div>
+    </div>
+   
+   
+</div>

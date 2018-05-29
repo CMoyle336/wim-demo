@@ -1,0 +1,59 @@
+<owl-carousel
+    [options]="{items: 1, dots: true, nav: true, stagePadding: 30}"
+    [carouselClasses]="['owl-carousel', 'hero-slider']" >
+
+    <div class="item container-fluid" >
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <div class="pr-3 pt-5 pb-0 py-md-5">
+                    <img [src]="(storefront$ | async)?.APTSMD_SubHeader1Image__c | image" class="d-block" style="margin-top: 12%;"> 
+                </div>
+            </div>
+            <div class="col-xl-4 col-md-6">
+                <div class="padding-top-3x padding-bottom-3x px-3 px-lg-5 text-center text-md-left from-bottom">
+                    <h2>{{(storefront$ | async)?.APTSMD_Sub_Header_1__c}}</h2>
+                    <p [innerHTML]="(storefront$ | async)?.APTSMD_Sub_Header_Detail_1__c"></p>
+                    <a *ngIf="(storefront$ | async)" 
+                        [style.backgroundColor]="(storefront$ | async).APTSMD_Accent_Color__c"
+                        class="btn btn-primary">View Details</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="item container-fluid">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <div class="pr-3 pt-5 pb-0 py-md-5">
+                    <img [src]="(storefront$ | async)?.APTSMD_SubHeader2Image__c | image" class="d-block"> 
+                </div>
+            </div>
+            <div class="col-xl-4 col-md-6">
+                <div class="padding-top-3x padding-bottom-3x px-3 px-lg-5 text-center text-md-left from-bottom">
+                    <h2>{{(storefront$ | async)?.APTSMD_Sub_Header_2__c}}</h2>
+                    <p [innerHTML]="(storefront$ | async)?.APTSMD_Sub_Header_Detail_2__c"></p>
+                    <a *ngIf="(storefront$ | async)" 
+                        [style.backgroundColor]="(storefront$ | async).APTSMD_Accent_Color__c"
+                        class="btn btn-primary">View Details</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="item container-fluid">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <div class="pr-3 pt-5 pb-0 py-md-5">
+                    <img [src]="(storefront$ | async)?.APTSMD_SubHeader3Image__c | image" class="d-block"> 
+                </div>
+            </div>
+            <div class="col-xl-4 col-md-6">
+                <div class="padding-top-3x padding-bottom-3x px-3 px-lg-5 text-center text-md-left from-bottom">
+                    <h2>{{(storefront$ | async)?.APTSMD_Sub_Header_3__c}}</h2>
+                    <p [innerHTML]="(storefront$ | async)?.APTSMD_Sub_Header_Detail_3__c"></p>
+                    <a *ngIf="(storefront$ | async)" 
+                        [style.backgroundColor]="(storefront$ | async).APTSMD_Accent_Color__c"
+                        class="btn btn-primary">View Details</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</owl-carousel>

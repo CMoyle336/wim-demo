@@ -1,0 +1,88 @@
+<pl-breadcrumb [breadcrumbs]="searchResults?.breadcrumb" id="breadcrumb" (accountName)="getAccountName($event)"></pl-breadcrumb>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xl-10 col-lg-9 col-md-8 order-md-2">
+            <div class="row">
+                <div class="col-12">
+                    <pl-results [recordCount]="searchResults?.totalRecords[0]?.total_records" [limit]="pageSize" [offset]="(page - 1) * pageSize"
+                        [page]="page" [view]="view" [query]="query" (viewChange)="view = $event" (sortChange)="onSortChange($event)"
+                        class="mb-2 d-block">
+                    </pl-results>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <button (click)="compareProducts()" *ngIf="this.compareProductCount > 1" style="background-color:#1e738d !important" class="btn btn-primary btn-sm"
+                        data-toast data-toast-type="success" data-toast-position="topRight" data-toast-icon="Compare Products">
+                        Compare Products</button>
+                </div>
+            </div>
+            <div class="d-flex justify-content-center my-5 py-5" *ngIf="!searchResults?.productList">
+                <i class="fa fa-circle-o-notch fa-spin fa-5x fa-fw"></i>
+            </div>
+
+            <div class="row mb-2" *ngIf="view == 'grid' && searchResults?.productList">
+                <div class="col-xl-3 col-lg-4 col-sm-6" *ngFor="let product of searchResults?.productList">
+
+                    <product-card [product]="product" (emitCompareProductCountEvent)="setCompareProductCount($event)" [accountName]="accountName"></product-card>
+                </div>
+            </div>
+
+            <div class="row" *ngIf="view == 'list' && searchResults?.productList">
+                <div class="col-12">
+                    <ul class="list-unstyled list-groupo">
+                        <li *ngFor="let product of searchResults?.productList" class="list-group-item">
+                            <product-card [product]="product" type="media" (emitCompareProductCountEvent)="setCompareProductCount($event)"></product-card>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-center" *ngIf="searchResults?.productList">
+                <ngb-pagination *ngIf="searchResults" (pageChange)="onPage($event)" [collectionSize]="searchResults?.totalRecords[0]?.total_records"
+                    [(page)]="page" [boundaryLinks]="true" [ellipses]="true" [pageSize]="pageSize" [maxSize]="5">
+                </ngb-pagination>
+            </div>
+            <div class="row">
+                <div class="col-8"></div>
+                <div class="col-2">
+                    <span class="skype-button bubble" data-bot-id="cb6c9bc3-1c8e-4aff-bf29-f845026decc7"></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-2 col-lg-3 col-md-4 order-md-1">
+            <aside class="sidebar">
+                <div class="pt-5 hidden-md-up"></div>
+
+                <pl-subcategory (filterChange)="onSubcategoryFilter($event)" *ngIf="subCategories?.length > 0 || searchResults?.subcategories?.length > 0"
+                    [categoryList]="subCategories || searchResults?.subcategories" class="d-block mb-2">
+                </pl-subcategory>
+
+                <pl-price-tier [data]="searchResults?.aggregateTotal" [_selected]="priceTier" class="d-block mb-2" (priceChange)="onPriceTierChange($event)">
+                </pl-price-tier>
+                <product-availability (filterChange)="onAvailabilityFilter($event)" *ngIf="availabilityFilterValues?.length > 0 || searchResults?.productList?.length > 0"
+                    [availabilityList]="availabilityFilterValues || searchResults?.productList" class="d-block mb-2">
+                </product-availability>
+            </aside>
+        </div>
+        <div class="modal fade bs-example-modal-lg" id="compareProductsModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                    </div>
+                    <div class="modal-body">
+                        ...
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

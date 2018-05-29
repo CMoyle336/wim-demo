@@ -8,7 +8,11 @@
       "sourceRoot": "src",
       "projectType": "application",
       "prefix": "app",
-      "schematics": {},
+      "schematics": {
+        "@schematics/angular:component": {
+          "styleext": "scss"
+        }
+      },
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
@@ -23,9 +27,18 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "./node_modules/font-awesome/css/font-awesome.css",
+              "./node_modules/ladda/dist/ladda.min.css",
+              "./node_modules/animate.css/animate.min.css",
+              "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "./node_modules/jquery/dist/jquery.min.js",
+              "src/assets/js/modernizr.min.js",
+              "./node_modules/owl.carousel/dist/owl.carousel.js",
+              "./node_modules/card-js/card-js.min.js",
+              "src/assets/js/jspdf.min.js"
+            ]
           },
           "configurations": {
             "production": {

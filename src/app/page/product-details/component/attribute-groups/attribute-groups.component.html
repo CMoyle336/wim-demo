@@ -1,0 +1,24 @@
+<div *ngFor="let group of product?.Apttus_Config2__AttributeGroups__r?.records">
+    <h3>{{group.Apttus_Config2__AttributeGroupId__r.Name}}</h3>
+    <div *ngFor="let attribute of productAttributes">
+        
+      <input-field 
+            *ngIf="attribute.Apttus_Config2__AttributeGroupId__c == group.Apttus_Config2__AttributeGroupId__c" 
+            [field]="attribute._describe"
+            [(ngModel)]="priceForm.attributeValueList[0][attribute.Apttus_Config2__Field__c]"
+            (change)="formChange(select.value)">
+        </input-field> 
+
+      <!-- <select *ngIf="attribute.Apttus_Config2__AttributeGroupId__c == group.Apttus_Config2__AttributeGroupId__c" 
+                style="display: block;" class="form-control form-control-sm" #s
+                id="attribute.Apttus_Config2__Field__c"
+                id="attribute.Apttus_Config2__Field__c" 
+                [(ngModel)]="attribute.Apttus_Config2__Field__c" 
+                name="attribute.Apttus_Config2__Field__c" 
+                (change)="formChange(s.value)">
+                <option *ngFor="let picklistValue of attribute._describe.picklistValues" value={{picklistValue.value}} [selected]="picklistValue.value==Black">
+                        {{picklistValue.value}}
+                    </option>
+            </select> -->
+    </div>
+</div>

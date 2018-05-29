@@ -1,0 +1,61 @@
+<breadcrumbs [breadPageTitle]="pageTitle"></breadcrumbs>
+<!-- Page Content-->
+<div class="container padding-bottom-3x mb-2 pt-5">
+	<div class="table-responsive text-sm">
+		<table class="table table-hover margin-bottom-none">
+			<thead>
+				<tr>
+					<th>Order #</th>
+					<th>Date Purchased</th>
+					<th>Status</th>
+					<th>Total</th>
+					<th>Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr *ngFor="let order of myOrders">
+					<td class="align-middle">
+						<a 
+							class="text-medium navi-link" 
+							[routerLink] = "['/order-details', order.Name]"
+							data-target="#orderDetails">{{order.Name}}</a>
+					</td>
+					<td class="align-middle">{{ order.CreatedDate | date }}</td>
+					<td class="align-middle">
+						<span  
+							[ngClass]="{'bg-warning' : order.Apttus_Config2__Status__c=='Processing','bg-info' : order.Apttus_Config2__Status__c=='Pending', 'bg-danger' : order.Apttus_Config2__Status__c=='Cancelled', 'bg-success' : order.Apttus_Config2__Status__c=='Completed'}" 
+							class="d-inline-block text-white text-xs p-1">{{order.Apttus_Config2__Status__c}}
+						</span>
+					</td>
+					<td class="align-middle">
+						<span class="text-medium">{{order.Total_Order_Amount__c | localCurrency | async}}</span>
+					</td>
+					<td class="align-middle">
+						<a class="linkcolor" (click)="reOrder(order)"><i class="fa fa-refresh fa-2x" aria-hidden="true"></i></a>
+						<a class="linkcolor" (click)="exportToExcel(order)"><i class="fa fa-file-excel-o fa-2x"aria-hidden="true"></i></a> 
+						<a class="linkcolor" (click)="exportToCSV(order)"><i class="fa fa-file-text fa-2x" aria-hidden="true"></i></a> 
+						<a class="linkcolor" (click)="downloadPDF(order)"><i class="fa fa-file-pdf-o fa-2x" aria-hidden="true"></i> </a>
+						<a class="linkcolor"><i class="fa fa-truck fa-2x" aria-hidden="true"></i></a>
+						<!-- <a class="linkcolor" (click)="cancelOrder(order)"><i class="fa fa-times fa-2x"></i></a> -->
+						<a class="linkcolor" (click)="open(content,order)"><i class="fa fa-times fa-2x"></i></a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+<ng-template #content let-c="close" let-d="dismiss">
+	<div class="modal-header">
+	  <h4 class="modal-title">Confirmation</h4>
+	  <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+		<span aria-hidden="true">&times;</span>
+	  </button>
+	</div>
+	<div class="modal-body">
+	  <p>Do You want to Cancel Order?&hellip;</p>
+	</div>
+	<div class="modal-footer">
+	  <button type="button" class="btn bg-success" (click)="cancelOrder();d('Cross click')">Yes</button>
+	  <button type="button" class="btn bg-success" (click)="c('Close click')">No</button>
+	</div>
+  </ng-template>

@@ -1,0 +1,42 @@
+<div [ngSwitch]="field?.type" class="list-group-item">
+  <label *ngIf="label">{{field?.label}}</label>
+
+  <!--Picklist-->
+  <div *ngSwitchCase="'picklist'">
+    <select class="form-control form-control-sm" *ngIf="field.picklistValues.length > 3; else checkboxes" [(ngModel)]="value">
+      <option *ngFor="let option of field.picklistValues" [value]="option.value">
+        {{option.label}}
+      </option>
+    </select>
+    <ng-template #checkboxes>
+      <ul class="list-unstyled">
+        <li *ngFor="let option of field.picklistValues" class="custom-control custom-radio py-1">
+          <input type="radio" class="custom-control-input" [name]="field.name" [value]="option.value" [id]="field.name + '_' + option.value" [(ngModel)]="value" (change)="onRadioChange()">
+          <label class="custom-control-label" [for]="field.name + '_' + option.value">{{option.label}}</label>
+        </li>
+      </ul>
+    </ng-template>
+  </div>
+
+  <!--Checkbox-->
+  <select class="form-control form-control-sm" *ngSwitchCase="'boolean'" [(ngModel)]="value">
+    <option [value]="true">Yes</option>
+    <option [value]="false">No</option>
+  </select>
+
+  <!--Multi select picklist-->
+  <ul class="list-unstyled pl-2" *ngSwitchCase="'multipicklist'">
+    <li *ngFor="let option of field.picklistValues" class="custom-control custom-checkbox py-1">
+      <input type="checkbox" class="custom-control-input" [checked]="value?.indexOf(option.value) > -1" [id]="option.value" 
+            (change)="onMultiChange(option.value)">
+      <label class="custom-control-label" [for]="option.value">{{option.label}}</label>
+    </li>
+  </ul>
+
+  <!-- String -->
+  <input type="text" class="form-control form-control-sm" [id]="value" [(ngModel)]="value" *ngSwitchCase="'text'"/>
+
+  <input type="number" class="form-control form-control-sm" [id]="value" [(ngModel)]="value" *ngSwitchCase="'double'"/>
+
+  <textarea [(ngModel)]="value" *ngSwitchCase="'string'" class="form-control form-control-sm"></textarea>
+</div>

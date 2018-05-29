@@ -1,0 +1,26 @@
+<breadcrumbs [breadPageTitle]="pageTitle"></breadcrumbs>
+<div class="container-fluid">
+  <div class="row"><br><br></div>
+  
+  <div class="row">
+      <div class="col-lg-8 col-md-10 col-xs-12 col-sm-12">
+          <div class="row">
+                <div class="col-4"></div>
+                <div class="col-8">
+                       <div class="center"  *ngIf="user != null && user.Alias!='guest'"> 
+                            <file-drop customstyle="center" (onFileDrop)="dropped($event)" (onFileOver)="fileOver($event)" (onFileLeave)="fileLeave($event)">
+                                    <i class="fa fa-cloud-upload fa-3x fileDropColor"></i><span class="fileDropColor">   Drag and Drop a file</span>
+                            </file-drop>
+                            <div *ngFor="let item of files; let i=index" class="fileDropColor">
+                                <h3 class="fileDropColor"><b>File Uploaded : </b> {{ item.relativePath }}</h3>   
+                            </div>
+                            <div>
+                                <h5 class="fileDropColor"><a href="/assets/sampleFile/fileUploadQty.CSV">Sample CSV</a></h5>   
+                            </div>
+                    </div> 
+                </div>
+          </div>
+      </div>
+  </div>
+  </div>         
+           

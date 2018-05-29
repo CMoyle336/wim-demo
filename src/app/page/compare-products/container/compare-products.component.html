@@ -1,0 +1,40 @@
+<breadcrumbs [breadPageTitle]="pageTitle"></breadcrumbs>
+<!-- Page Content-->
+<div class="container padding-bottom-3x mb-2 pt-5">
+      <div class="d-flex justify-content-center my-5 py-5" *ngIf="showLoadingScreen">
+        <i class="fa fa-circle-o-notch fa-spin fa-5x fa-fw"></i>
+    </div>
+	<div class="table-responsive text-sm" *ngIf="!showLoadingScreen">
+    <h2>Compare Products</h2>
+    <table class="table table-hover margin-bottom-none">
+			<thead>
+				<tr>
+					<th>Feature Name</th>
+					<th>
+              <img class="img-fluid"  
+                  [lazyLoad]="product1.Apttus_Config2__IconId__c | image" 
+                  [alt]="product1.Name"> <br>
+            {{product1.Name}}<br/>
+            <i>List Price :{{product1.Apttus_Config2__PriceLists__r?.records[0]?.Apttus_Config2__ListPrice__c | localCurrency | async}}</i>
+          </th>
+					<th>
+              <img class="img-fluid"  
+              [lazyLoad]="product2.Apttus_Config2__IconId__c | image" 
+              [alt]="product2.Name"><br>  
+            {{product2.Name}}<br/>
+            <i>List Price :{{product2.Apttus_Config2__PriceLists__r?.records[0]?.Apttus_Config2__ListPrice__c | localCurrency | async}}</i>
+          </th>
+				</tr>
+			</thead>
+			<tbody>
+        
+        <tr *ngFor="let feature of productFeatureSetArr;let i = index">
+          <td *ngIf="feature != ' '" >  {{feature}} </td>
+          <td *ngIf="product1FeatureSetValuesArr[i] != ' '"> {{ product1FeatureSetValuesArr[i] }} </td>
+          <td *ngIf="product2FeatureSetValuesArr[i] != ' '"> {{ product2FeatureSetValuesArr[i] }} </td>
+        </tr>
+				
+			</tbody>
+		</table>
+	</div>
+</div>
